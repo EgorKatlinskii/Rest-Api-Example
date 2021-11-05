@@ -1,12 +1,14 @@
 package com.example.testtaskntiteam.Entity;
 
 import com.sun.istack.NotNull;
+import lombok.Data;
 
 import javax.persistence.*;
-import java.util.List;
+
 
 @Entity
 @Table(name = "planets")
+@Data
 public class Planet {
 
     @Id
@@ -19,9 +21,5 @@ public class Planet {
     @Column(name = "planet_name")
     @NotNull
     private String planetName;
-
-    @ManyToOne(optional = false,fetch = FetchType.LAZY)
-    @NotNull
-    private Lord lord;
 
 }

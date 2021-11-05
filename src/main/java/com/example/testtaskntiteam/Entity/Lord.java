@@ -25,7 +25,8 @@ public class Lord {
     @NotNull
     private int lordAge;
 
-    @OneToMany(mappedBy = "lord", cascade = CascadeType.ALL)
+    @OneToMany
+    @JoinColumn(name = "lord_id")
     private List<Planet> listPlanets;
 
 }
