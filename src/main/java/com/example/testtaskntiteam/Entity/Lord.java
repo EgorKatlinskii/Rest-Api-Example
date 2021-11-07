@@ -1,11 +1,10 @@
 package com.example.testtaskntiteam.Entity;
 
-import com.sun.istack.NotNull;
 import lombok.Data;
-
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.List;
-
 
 @Entity
 @Data
@@ -18,15 +17,15 @@ public class Lord {
     private Integer lordId;
 
     @Column(name = "lord_name")
-    @NotNull
+    @NotNull(message = "Lord name is missing")
+    @Size(min = 2,max = 25,message = "Minimum number of characters for the lord name : 2 , maximum : 25")
     private String lordName;
 
-    @Column(name = "lord_age")
     @NotNull
+    @Column(name = "lord_age")
     private int lordAge;
 
-    @OneToMany
-    @JoinColumn(name = "lord_id")
+    @OneToMany(mappedBy = "lord")
     private List<Planet> listPlanets;
 
 }

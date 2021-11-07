@@ -1,8 +1,10 @@
 package com.example.testtaskntiteam.Entity;
 
-import com.sun.istack.NotNull;
+
 import lombok.Data;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.persistence.*;
 
 
@@ -14,12 +16,15 @@ public class Planet {
     @Id
     @Column(name = "planet_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @NotNull
     private Integer planetIid;
 
-
     @Column(name = "planet_name")
-    @NotNull
+    @NotNull(message = "Planet name is missing")
+    @Size(min = 2,max = 25,message = "Minimum number of characters for the lord 's name : 3 , maximum : 25!")
     private String planetName;
+
+    @ManyToOne
+    @JoinColumn(name="lord_id")
+    private Lord lord;
 
 }
