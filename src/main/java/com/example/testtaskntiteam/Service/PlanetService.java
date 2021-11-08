@@ -53,5 +53,4 @@ public class PlanetService {
             throw new EntityNotFoundException("The planet already has a ruler");
         }
     }
-
 }
