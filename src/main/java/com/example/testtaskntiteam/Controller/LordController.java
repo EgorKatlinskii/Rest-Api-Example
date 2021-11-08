@@ -1,6 +1,7 @@
 package com.example.testtaskntiteam.Controller;
 
 import com.example.testtaskntiteam.Entity.Lord;
+import com.example.testtaskntiteam.Repository.LordRepository;
 import com.example.testtaskntiteam.Service.LordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -8,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.AbstractMap;
 import java.util.List;
 
 @RestController
@@ -15,6 +17,9 @@ public class LordController {
 
     @Autowired
     LordService lordService;
+
+    @Autowired
+    LordRepository lordRepository;
 
     @PostMapping("/saveLord")
     @ResponseBody
@@ -34,5 +39,24 @@ public class LordController {
                 : new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+
+    @GetMapping("/getIdlers")
+    @ResponseBody
+    public ResponseEntity<?> getIdlers(){
+        var listIdlers = lordService.getIdlers();
+        return !listIdlers.isEmpty()
+                ? ResponseEntity.status(HttpStatus.OK).body(listIdlers)
+                : ResponseEntity.status(HttpStatus.NOT_FOUND).
+                body(new AbstractMap.SimpleEntry<>("Message:", "No loafers!"));
+    }
+
+    @GetMapping("/getLords")
+    @ResponseBody
+    public ResponseEntity<List<Lord>> getLords(){
+        var listLords = lordRepository.findAll();
+        return !listLords.isEmpty()
+                ? ResponseEntity.status(HttpStatus.OK).body(listLords)
+                : new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 
 }

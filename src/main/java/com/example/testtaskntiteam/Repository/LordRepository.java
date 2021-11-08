@@ -13,4 +13,9 @@ public interface LordRepository extends JpaRepository<Lord,Integer> {
     @Query(value = "SELECT * FROM lords  ORDER BY lord_age LIMIT  :amount ",nativeQuery = true)
     List<Lord>  getTheYoungestLords(@Param("amount") int amount);
 
+    @Query(value="SELECT * FROM lords l WHERE l.lord_id NOT IN " +
+            "(SELECT pl.lord_id " +
+            "FROM planets pl)",nativeQuery = true)
+    List<Lord> getIdlers();
+
 }

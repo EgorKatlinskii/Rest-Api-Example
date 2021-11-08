@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.AbstractMap;
 
 @RestController
 public class PlanetController {
@@ -31,5 +32,12 @@ public class PlanetController {
                 : new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+    @PutMapping("/addLord/{lordId}/{planetId}")
+    @ResponseBody
+    public ResponseEntity<?> addLordPlanet(@PathVariable int lordId,@PathVariable int planetId){
+        return planetService.addLordPlanet(lordId,planetId)
+                ? new ResponseEntity<>(HttpStatus.OK)
+                : new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 
 }

@@ -1,6 +1,7 @@
 package com.example.testtaskntiteam.Service;
 
 import com.example.testtaskntiteam.Entity.Lord;
+import com.example.testtaskntiteam.Entity.Planet;
 import com.example.testtaskntiteam.Repository.LordRepository;
 import com.example.testtaskntiteam.Repository.PlanetRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -37,6 +38,10 @@ public class LordService {
         }
         return Collections.emptyList();
 
+    }
+
+    public List<Lord> getIdlers(){
+        return lordRepository.getIdlers();
     }
 
 

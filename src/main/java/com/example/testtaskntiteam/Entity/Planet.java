@@ -1,6 +1,7 @@
 package com.example.testtaskntiteam.Entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
@@ -23,8 +24,9 @@ public class Planet {
     @Size(min = 2,max = 25,message = "Minimum number of characters for the lord 's name : 3 , maximum : 25!")
     private String planetName;
 
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name="lord_id")
+    @JsonIgnore
     private Lord lord;
 
 }
