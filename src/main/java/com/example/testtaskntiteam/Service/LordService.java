@@ -23,10 +23,10 @@ public class LordService {
     private PlanetRepository planetRepository;
 
 
-    public Lord saveLord(Lord lord){
-        lordRepository.save(lord);
-        log.info("Create new lord - {}",lord);
-        return lord;
+    public Lord saveLord(Lord newLord){
+        lordRepository.save(newLord);
+        log.info("Create new lord - {}",newLord);
+        return newLord;
     }
 
     public List<Lord> getTheYoungestLords(int count){
