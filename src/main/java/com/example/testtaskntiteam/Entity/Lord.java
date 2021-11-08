@@ -1,6 +1,8 @@
 package com.example.testtaskntiteam.Entity;
 
 import lombok.Data;
+import lombok.ToString;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -8,6 +10,7 @@ import java.util.List;
 
 @Entity
 @Data
+
 @Table(name = "lords")
 public class Lord {
 
@@ -26,6 +29,7 @@ public class Lord {
     private int lordAge;
 
     @OneToMany(mappedBy = "lord")
+    @ToString.Exclude
     private List<Planet> listPlanets;
 
 }

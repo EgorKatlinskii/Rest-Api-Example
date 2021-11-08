@@ -30,9 +30,9 @@ public class LordController {
     }
 
 
-    @GetMapping("/getTheYoungesLords/{count}")
+    @GetMapping("/getYoungestLords/{count}")
     @ResponseBody
-    public ResponseEntity<List<Lord>> getTheYoungesLords(@PathVariable int count) {
+    public ResponseEntity<List<Lord>> getYoungestLords(@PathVariable int count) {
         var listLords = lordService.getTheYoungestLords(count);
         return !listLords.isEmpty()
                 ? ResponseEntity.status(HttpStatus.OK).body(listLords)
@@ -53,7 +53,7 @@ public class LordController {
     @GetMapping("/getLords")
     @ResponseBody
     public ResponseEntity<List<Lord>> getLords(){
-        var listLords = lordRepository.findAll();
+        var listLords =lordService.getAllLords();
         return !listLords.isEmpty()
                 ? ResponseEntity.status(HttpStatus.OK).body(listLords)
                 : new ResponseEntity<>(HttpStatus.NO_CONTENT);

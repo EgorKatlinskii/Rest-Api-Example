@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.AbstractMap;
 
 @RestController
 public class PlanetController {
@@ -27,9 +26,8 @@ public class PlanetController {
 
     @DeleteMapping("/deletePlanet/{id}")
     public ResponseEntity<?> deletePlanet(@PathVariable int id){
-        return planetService.deletePlanet(id)
-                ? new ResponseEntity<>(HttpStatus.OK)
-                : new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return ResponseEntity.status(HttpStatus.OK).body(planetService.deletePlanet(id));
+
     }
 
     @PutMapping("/addLord/{lordId}/{planetId}")
