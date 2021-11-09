@@ -29,4 +29,11 @@ public class Planet {
     @JsonIgnore
     private Lord lord;
 
+    public Planet(String planetName){
+        this.planetName=planetName;
+    }
+
+    public Planet() {
+
+    }
 }
