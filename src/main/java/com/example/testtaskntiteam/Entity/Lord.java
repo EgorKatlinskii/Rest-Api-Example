@@ -1,5 +1,6 @@
 package com.example.testtaskntiteam.Entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.ToString;
 
@@ -10,7 +11,6 @@ import java.util.List;
 
 @Entity
 @Data
-
 @Table(name = "lords")
 public class Lord {
 
@@ -32,4 +32,12 @@ public class Lord {
     @ToString.Exclude
     private List<Planet> listPlanets;
 
+    public Lord(String lordName,int lordAge) {
+        this.lordName= lordName;
+        this.lordAge=lordAge;
+    }
+
+    public Lord() {
+
+    }
 }
