@@ -1,6 +1,5 @@
 package com.example.testtaskntiteam.Entity;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.ToString;
 
@@ -21,7 +20,7 @@ public class Lord {
 
     @Column(name = "lord_name")
     @NotNull(message = "Lord name is missing")
-    @Size(min = 2,max = 25,message = "Minimum number of characters for the lord name : 2 , maximum : 25")
+    @Size(min = 2, max = 25, message = "Minimum number of characters for the lord name : 2 , maximum : 25")
     private String lordName;
 
     @NotNull
@@ -32,12 +31,13 @@ public class Lord {
     @ToString.Exclude
     private List<Planet> listPlanets;
 
-    public Lord(String lordName,int lordAge) {
-        this.lordName= lordName;
-        this.lordAge=lordAge;
-    }
-
     public Lord() {
 
     }
+
+    public Lord(String lordName, int lordAge) {
+        this.lordName = lordName;
+        this.lordAge = lordAge;
+    }
+
 }

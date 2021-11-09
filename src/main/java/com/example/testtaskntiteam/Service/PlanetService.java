@@ -21,35 +21,35 @@ public class PlanetService {
     private LordRepository lordRepository;
 
 
-    public Planet savePlanet(Planet newPlanet){
+    public Planet savePlanet(Planet newPlanet) {
         planetRepository.save(newPlanet);
-        log.info("Create new planet- {}",newPlanet);
+        log.info("Create new planet- {}", newPlanet);
         return newPlanet;
     }
 
-    public boolean deletePlanet(int id){
-        if(planetRepository.existsById(id)){
+    public boolean deletePlanet(int id) {
+        if (planetRepository.existsById(id)) {
             planetRepository.deleteById(id);
             return true;
-        }else {
-            throw new EntityNotFoundException("Planet with id - "+id+" not found");
+        } else {
+            throw new EntityNotFoundException("Planet with id - " + id + " not found");
         }
     }
 
-    public boolean addLordPlanet(int lordId, int planetId){
-        if(!lordRepository.existsById(lordId)){
-            throw new EntityNotFoundException("Lord with id - "+lordId+ " not found");
-        }else if(!planetRepository.existsById(planetId)){
-            throw new EntityNotFoundException("Planet with id - "+planetId+ " not found");
+    public boolean addLordPlanet(int lordId, int planetId) {
+        if (!lordRepository.existsById(lordId)) {
+            throw new EntityNotFoundException("Lord with id - " + lordId + " not found");
+        } else if (!planetRepository.existsById(planetId)) {
+            throw new EntityNotFoundException("Planet with id - " + planetId + " not found");
         }
         var planet = planetRepository.getById(planetId);
         var planetLord = planet.getLord();
-        if(planetLord==null ){
+        if (planetLord == null) {
             planetLord = lordRepository.getById(lordId);
             planet.setLord(planetLord);
             planetRepository.save(planet);
             return true;
-        }else {
+        } else {
             throw new EntityNotFoundException("The planet already has a ruler");
         }
     }

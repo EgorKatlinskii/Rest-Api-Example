@@ -11,12 +11,8 @@ import org.mockito.BDDMockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
@@ -35,15 +31,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@AutoConfigureMockMvc //only if you will use @MockMvc
+@AutoConfigureMockMvc
 @ActiveProfiles("test")
 class LordControllerTest {
 
     @Autowired
     private TestRestTemplate restTemplate;
 
-    @LocalServerPort //only for port
-    private int port;
 
     @MockBean
     private LordRepository lordRepository;
@@ -52,13 +46,6 @@ class LordControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @TestConfiguration
-    static class config {
-        @Bean
-        public RestTemplateBuilder restTemplateBuilder() {
-            return new RestTemplateBuilder().basicAuthentication("sa", "");
-        }
-    }
 
     @Before
     public void setup() {
@@ -66,7 +53,7 @@ class LordControllerTest {
     }
 
     @Test
-    void save_Lord_OK() throws Exception {
+    void save_Lord_OK() {
         var lord = new Lord();
         lord.setLordName("Oger");
         lord.setLordAge(40);
@@ -113,7 +100,7 @@ class LordControllerTest {
     @Test
     void find_AllLords_OK() throws Exception {
         var listLords= Arrays.asList(new Lord("Yan",10),
-                                                new Lord("Oger",50));
+                new Lord("Oger",50));
         when(lordRepository.findAll()).thenReturn(listLords);
         this.mockMvc
                 .perform(get("/getLords")

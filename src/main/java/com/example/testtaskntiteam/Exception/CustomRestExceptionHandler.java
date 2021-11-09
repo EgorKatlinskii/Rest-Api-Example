@@ -20,7 +20,7 @@ public class CustomRestExceptionHandler {
     }
 
 
-    @ExceptionHandler({EntityNotFoundException.class,IndexOutOfBoundsException.class})
+    @ExceptionHandler({EntityNotFoundException.class, IndexOutOfBoundsException.class})
     public ResponseEntity<Object> handleException(Exception e) {
         var response = new Response(e.getMessage());
         return new ResponseEntity<>(response, HttpStatus.OK);

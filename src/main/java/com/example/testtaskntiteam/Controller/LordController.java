@@ -42,7 +42,7 @@ public class LordController {
 
     @GetMapping("/getIdlers")
     @ResponseBody
-    public ResponseEntity<?> getIdlers(){
+    public ResponseEntity<?> getIdlers() {
         var listIdlers = lordService.getIdlers();
         return !listIdlers.isEmpty()
                 ? ResponseEntity.status(HttpStatus.OK).body(listIdlers)
@@ -52,8 +52,8 @@ public class LordController {
 
     @GetMapping("/getLords")
     @ResponseBody
-    public ResponseEntity<List<Lord>> getLords(){
-        var listLords =lordService.getAllLords();
+    public ResponseEntity<List<Lord>> getLords() {
+        var listLords = lordService.getAllLords();
         return !listLords.isEmpty()
                 ? ResponseEntity.status(HttpStatus.OK).body(listLords)
                 : new ResponseEntity<>(HttpStatus.NO_CONTENT);
