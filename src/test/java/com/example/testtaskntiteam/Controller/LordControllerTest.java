@@ -2,22 +2,57 @@ package com.example.testtaskntiteam.Controller;
 
 import com.example.testtaskntiteam.Entity.Lord;
 import com.example.testtaskntiteam.Entity.Planet;
+import com.example.testtaskntiteam.Repository.LordRepository;
 import com.example.testtaskntiteam.Service.LordService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.assertj.core.api.Assertions;
+import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
+import org.mockito.BDDMockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
 import java.util.List;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -26,43 +61,53 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 @RunWith(SpringRunner.class)
-@SpringBootTest
-@AutoConfigureMockMvc
-/*@WebMvcTest(LordController.class)*/
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@AutoConfigureMockMvc //only if you will use @MockMvc
+@ActiveProfiles("test")
 class LordControllerTest {
+
+    @Autowired
+    private TestRestTemplate restTemplate;
+
+    @LocalServerPort //only for port
+    private int port;
+
+    @MockBean
+    private LordRepository lordRepository;
+
 
     @Autowired
     private MockMvc mockMvc;
 
-    @Autowired
-    private ObjectMapper objectMapper;
+    @TestConfiguration
+    static class config {
+        @Bean
+        public RestTemplateBuilder restTemplateBuilder() {
+            return new RestTemplateBuilder().basicAuthentication("sa", "");
+        }
+    }
 
-    @MockBean
-    public LordService lordService;
+    @Before
+    public void setup() {
 
-    @Test
-    void saveLord() throws Exception {
-        var lord = new Lord();
-        lord.setLordName("Oger");
-        lord.setLordAge(40);
-
-        this.mockMvc
-                .perform(post("/saveLord")
-                        .accept(MediaType.APPLICATION_JSON)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(lord))
-                )
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.lordName").value("Oger"))
-                .andExpect(jsonPath("$.lordAge").value(40))
-                .andExpect(jsonPath("$.lordId").isNotEmpty())
-                .andReturn();
-        verify(lordService).saveLord(lord);
     }
 
     @Test
-    void getYoungestLords() throws Exception {
+    void save_Lord_OK() throws Exception {
+        var lord = new Lord();
+        lord.setLordName("Oger");
+        lord.setLordAge(40);
+        // given
+        BDDMockito.when(lordRepository.save(lord)).thenReturn(lord);
+        ResponseEntity<Lord> response = restTemplate.postForEntity("/saveLord", lord, Lord.class);
+        Assertions.assertThat(response.getStatusCodeValue()).isEqualTo(200);
+    }
+
+    @Test
+    void get_Youngest_Lords_OK() throws Exception {
         var lordsList = new ArrayList<Lord>();
 
         var lordOne = new Lord();
@@ -75,7 +120,7 @@ class LordControllerTest {
 
         lordsList.add(lordOne);
         lordsList.add(lordTwo);
-        when(lordService.getTheYoungestLords(1))
+        when(lordRepository.getTheYoungestLords(1))
                 .thenReturn((List<Lord>) lordsList);
         var count = 1;
         this.mockMvc
@@ -87,7 +132,7 @@ class LordControllerTest {
                 .andExpect(jsonPath("$.[0].lordAge", is(10)));
     }
 
-    @Test
+    /*@Test
     void getIdlers() throws Exception {
 
         var planet = new Planet();
@@ -111,8 +156,7 @@ class LordControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.[0].lordAge", is(10)));
     }
-
     @Test
     void getLords() {
-    }
+    }*/
 }
