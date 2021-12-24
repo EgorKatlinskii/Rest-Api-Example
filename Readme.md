@@ -9,7 +9,7 @@ Supports Java 11 and above.
 **1. Clone the application**
 
 ```bash
-git clone https://github.com/EgorKatlinskii/TestTaskNtiTeam.git
+git clone https://github.com/EgorKatlinskii/Rest-Api-Example.git
 ```
 
 **2. Create Mysql database**
