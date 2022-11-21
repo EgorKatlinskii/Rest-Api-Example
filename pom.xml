@@ -14,7 +14,7 @@
     <name>TestTaskNtiTeam</name>
     <description>Demo project for Spring Boot</description>
     <properties>
-        <java.version>11</java.version>
+        <java.runtime.version>11</java.runtime.version>
     </properties>
     <dependencies>
         <dependency>
@@ -68,7 +68,6 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>2.3.12.RELEASE</version>
                 <configuration>
                     <excludes>
                         <exclude>
